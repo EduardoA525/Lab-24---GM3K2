@@ -1,27 +1,27 @@
 //Eduardo Avila
 //COMSC - 210 - 5293
-//Lab 23 - Goat Manager 3001
+//Lab 24 - Goat Manager 3002
 
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <list>
+#include <set> //changed from list to set
 #include "Goat.h"
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-int select_goat(list<Goat> trip);
-void delete_goat(list<Goat> &trip);
-void add_goat(list<Goat> &trip, string [], string []);
-void display_trip(list<Goat> trip);
+int select_goat(set<Goat> trip);
+void delete_goat(set<Goat> &trip);
+void add_goat(set<Goat> &trip, string [], string []);
+void display_trip(set<Goat> trip);
 int main_menu();
 
 int main() {
     srand(time(0));
     bool again;
-
-    list<Goat> trip;
+    
+    set<Goat> trip;
     int choice;
 
     // read & populate arrays for names and colors
@@ -81,20 +81,20 @@ int main_menu(){
     return choice;
 }
 
-void add_goat(list<Goat> &trip, string names[], string colors[]){
+void add_goat(set<Goat> &trip, string names[], string colors[]){
     string name = names[rand() % SZ_NAMES];
     string color = colors[rand() % SZ_COLORS];
 
     int age = rand() % (MAX_AGE + 1);
 
     Goat newGoat(name, age, color);
-    trip.push_back(newGoat);
+    trip.insert(newGoat);
 
     cout << "\nNew Goat: " << name 
          << " successfully added. Yippee!" << endl; 
 }
 
-int select_goat(list<Goat> trip){
+int select_goat(set<Goat> trip){
     //empty check first
     if (trip.empty()){
         cout << "\nTrip is empty. No goats here buddy." << endl;
@@ -105,7 +105,7 @@ int select_goat(list<Goat> trip){
     display_trip(trip);
 
     int choice;
-    cout << "\nSelect goat (1- " << trip.size() << "): ";
+    cout << "\nSelect goat (1-" << trip.size() << "): ";
 
     while (!(cin >> choice) || choice < 1 || choice > trip.size()){
         cout << "\nERROR! Please choose 1-" << trip.size()
@@ -118,7 +118,7 @@ int select_goat(list<Goat> trip){
     return choice;
 }
 
-void delete_goat(list<Goat> &trip){
+void delete_goat(set<Goat> &trip){
     //empty check first
     if (trip.empty()){
         cout << "\nTrip empty. Goats ran away." << endl;
@@ -127,7 +127,7 @@ void delete_goat(list<Goat> &trip){
 
     int choice = select_goat(trip);
 
-    list<Goat>::iterator it = trip.begin();
+    set<Goat>::iterator it = trip.begin();
 
     for (int i = 1; i < choice; i++){
         it++;
@@ -138,7 +138,7 @@ void delete_goat(list<Goat> &trip){
     cout << "\nGoat is GONE. Deletion success!" << endl;
 }
 
-void display_trip(list<Goat> trip){
+void display_trip(set<Goat> trip){
     //empty check first
     if (trip.empty()){
         cout << "\nTrip is empty." << endl;
